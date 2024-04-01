@@ -60,9 +60,6 @@ def user_show(filename='bilibili.txt',expiration_days=10):
     if user_cookie:
         print('当前使用的 Cookie 为：', user_cookie)
 
-if __name__ == '__main__':
-    #user_show()
-    print(out_cookie('bilibili.txt'))
 
 
 
