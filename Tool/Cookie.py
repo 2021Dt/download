@@ -1,14 +1,11 @@
-from pprint import pprint
-from API.CommentAPI import CommentAPI
-from API.BaiNianJi import BaiNianJi
-from API.DanMuAPI import DanMu
-from Tool.DowbLoad import DownLoad
 import os
 import time
 
 def set_cookie(cookie, filename='cookie.txt'):
 
     try:
+        if not os.path.exists('.\\cookie'):
+            os.makedirs('.\\cookie')
         with open(f'cookie/{filename}', 'w') as f:
             f.write(f'Cookie: {cookie}\n')
             f.write(f'Stored Time: {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}')
@@ -20,7 +17,7 @@ def out_cookie(filename='cookie.txt', expiration_days=10):
     try:
         cookie_file = f'cookie/{filename}'
         if not os.path.exists(cookie_file):
-            print('尚未存储 Cookie，请先执行 set_cookie 函数。')
+            print('尚未存储 Cookie，请先设置cookie')
             return None
 
         with open(cookie_file, 'r') as f:
@@ -49,17 +46,18 @@ def out_cookie(filename='cookie.txt', expiration_days=10):
 
 
 def user_show(filename='bilibili.txt',expiration_days=10):
+    cookie = input('请输入您的 Cookie：').strip()
     while True:
-        cookie = input('请输入您的 Cookie：').strip()
-        if cookie:
-            set_cookie(cookie, filename)
-            break
-        else:
-            print('Cookie 不能为空，请重新输入。')
+        while True:
+            if len(cookie) < 800:
+                print('非法cookie，请重新输入')
+                cookie = input('请输入您的 Cookie：\n').strip()
+            else:break
+        set_cookie(cookie, filename)
+        break
     user_cookie = out_cookie(filename, expiration_days)
     if user_cookie:
         print('当前使用的 Cookie 为：', user_cookie)
-
 
 
 

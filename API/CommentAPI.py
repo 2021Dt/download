@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import execjs
@@ -89,6 +90,15 @@ class CommentAPI(object):
 
     def run(self):
         self.get_comments()
+        self.write_to_file()
         return self.CommentAPI
+
+    def write_to_file(self):
+        if not os.path.exists('.\\Comment'):
+            os.mkdir('.\\Comment')
+        with open('.\\Comment\\comment.json', 'w', encoding='utf-8') as file:
+            json.dump(self.CommentAPI, file, ensure_ascii=False, indent=4)
+        print('为您生成了评论区文件(◍˃̶ᗜ˂̶◍)✩')
+
 
 
