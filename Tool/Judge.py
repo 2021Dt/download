@@ -10,7 +10,7 @@ from API.DanMuAPI import DanMu
 def Judge(url):
     base_url = 'https://www.bilibili.com/'
     # select = ['video', 'festival', 'bnj', 'bangumi']
-    similarity = difflib.SequenceMatcher(None, base_url, url).ratio()
+    similarity = difflib.SequenceMatcher(None, base_url, url[0:len(base_url)]).ratio()
     # 如果相似度超过阈值，则尝试进行纠正
     if 0.8 < similarity:
         print(f'网址与基础网址相似度为：{similarity:.2f}')
@@ -37,7 +37,7 @@ def Judge(url):
 def analyse(url):
     sel = input('弹幕爬取： 1\n评论爬取： 2')
     base_url = 'https://www.bilibili.com/'
-    similarity = difflib.SequenceMatcher(None, base_url, url).ratio()
+    similarity = difflib.SequenceMatcher(None, base_url, url[0:len(base_url)]).ratio()
     # 如果相似度超过阈值，则尝试进行纠正
     if 0.8 < similarity:
         print(f'网址与基础网址相似度为：{similarity:.2f}')
