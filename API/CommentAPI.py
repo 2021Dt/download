@@ -96,7 +96,7 @@ class CommentAPI(object):
     def write_to_file(self):
         if not os.path.exists('.\\Comment'):
             os.mkdir('.\\Comment')
-        with open('.\\Comment\\comment.json', 'w', encoding='utf-8') as file:
+        with open('.\\Comment\\Bcomment.json', 'w', encoding='utf-8') as file:
             json.dump(self.CommentAPI, file, ensure_ascii=False, indent=4)
         print('为您生成了评论区文件(◍˃̶ᗜ˂̶◍)✩')
 

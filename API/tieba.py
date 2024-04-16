@@ -1,4 +1,4 @@
-from Tool.Request import RequestUrl
+from Tool.RequestUrl import RequestUrl
 from pprint import pprint
 import re
 from lxml import etree
@@ -116,10 +116,10 @@ class Theme(object):
                     'information': k,
                     'reply': user_replay
                 })
-            pprint({
-                'pn':pn,
-                'data':data
-            })
+            # pprint({
+            #     'pn':pn,
+            #     'data':data
+            # })
             pn_data.append({
                 'pn':pn,
                 'data':data
@@ -174,4 +174,4 @@ class Theme(object):
         fid = re.search("fid:'(\d+)'", info).group(1)
         tid = re.search("tid:'(\d+)'", info).group(1)
         api = f'https://tieba.baidu.com/p/totalComment?t={self.t()}&tid={tid}&fid={fid}&pn={pn}&see_lz=0'
-        return RequestUrl(api, url)
+        return RequestUrl(api,self.url)
