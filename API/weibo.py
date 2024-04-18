@@ -14,15 +14,16 @@ class Weibo(object):
     def __init__(self, url, number=10, cookie=''):
         self.referer = 'https://weibo.com/'
         self.cookie = cookie
-        self.info = RequestUrl(url, referer=self.referer, cookie=self.cookie)
         self.url = url
         self.qurl = Queue()
         self.thread_num = number  # 多线程处理数量
 
-    def get_info(self):
+    def get_info(self,page=''):
         """获取主页面内容"""
-
-        html = etree.HTML(self.info.text)
+        global url
+        if page!='':
+            url = self.url + f'&page={page}'
+        html = etree.HTML(RequestUrl(url, referer=self.referer, cookie=self.cookie).text)
         part = html.xpath('//*[@id="pl_feedlist_index"]/div[4]//div[@class="card-wrap"]')
         data = []
 
@@ -66,10 +67,10 @@ class Weibo(object):
             data.append(user)
         return data
 
-    def getBuildComments(self):
+    def getBuildComments(self,page=''):
         """构建json文件"""
 
-        data = self.get_info()
+        data = self.get_info(page)
         threads = []
 
         for i in data:
@@ -140,4 +141,3 @@ class Weibo(object):
         with open(f'.\\Comment\\WeiBoComment_{data["mid"]}.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
         print(f'为 {data["nick_name"]} 生成了评论区文件(◍˃̶ᗜ˂̶◍)✩')
-

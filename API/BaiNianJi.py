@@ -12,7 +12,7 @@ class BaiNianJi(object):
         self.url = url
         self.origin = 'https://www.bilibili.com/'
         self.cookie = cookie
-        respon =  RequestUrl(url,referer=url,origin=self.origin,cookie=cookie)
+        respon =  RequestUrl(url,referer=url,origin=self.origin,cookie=self.cookie)
         information = re.findall(r'<script>window.__INITIAL_STATE__=(.*?)</script>', respon.text, re.S)[0]
         if information == '':
             print('拜年祭解析失败')
@@ -44,7 +44,7 @@ class BaiNianJi(object):
     def run(self):
         if not os.path.exists('.\\拜年祭'):
             os.makedirs('.\\拜年祭')
-        alldata = RequestUrl(self.api(),referer=self.url,cookie=cookie).json()
+        alldata = RequestUrl(self.api(),referer=self.url,cookie=self.cookie).json()
         alldata = alldata['data']
         accept_description = alldata['accept_description']
         accept_quality = alldata['accept_quality']
@@ -80,7 +80,7 @@ class BaiNianJi(object):
 
                 for j in range(len(audio[i]['backupUrl'])):
                     print(audio[i]['backupUrl'][j])
-                    content_audio = RequestUrl(audio[i]['backupUrl'][j],referer=self.url,cookie=cookie,origin=self.origin)
+                    content_audio = RequestUrl(audio[i]['backupUrl'][j],referer=self.url,cookie=self.cookie,origin=self.origin)
                     if content_audio != 0:
                         print('查询成功')
                         total_size = int(content_audio.headers.get('content-length', 0))
@@ -100,7 +100,7 @@ class BaiNianJi(object):
             for i in range(len(downinfor_video[select])):
                 for j in range(len(downinfor_video[select][i])):
                     print(downinfor_video[select][i][j])
-                    content_video = RequestUrl(downinfor_video[select][i][j],referer=self.url,cookie=cookie,origin=self.origin)
+                    content_video = RequestUrl(downinfor_video[select][i][j],referer=self.url,cookie=self.cookie,origin=self.origin)
 
                     if content_video is not  None:
                         print('查询成功')

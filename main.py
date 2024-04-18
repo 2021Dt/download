@@ -1,4 +1,4 @@
-from Tool.Judge import Welcome
+from Tool.Waring import run
 
-Welcome()
+run()
 
