@@ -36,7 +36,11 @@ class DownLoad(object):
             self.video_url = self.data['data']['dash']['video']#[0]['baseUrl']
         except Exception as e:
             print(e)
-    def download(self, down_data,sel):
+    def download(self, down_data,sel,select):
+        # print(down_data)
+        # print(sel)
+        # print(select)
+
         if sel=='.mp3':
             '''30280,30216,30232'''
             # print({'32112':'极高音质', '30280':'高音质', '30264':'中音质', '30232':'低音质', '30216':'极低音质'})
@@ -44,9 +48,10 @@ class DownLoad(object):
             # 默认最高音质
             url = self.select_id(down_data, '30280')
         else:
-            print(self.quality)
-            select = input('选择对应的id:')
+            #print(self.quality)
+            #select = input('选择对应的id:')
             url = self.select_id(down_data, select)
+            #print(url)
 
         if len(url) != 0:
             for i in url:
@@ -67,11 +72,11 @@ class DownLoad(object):
                     print(f'链接 {i[0]} 已失效')
 
         else:
-            print('当前账号不支持清晰度下载')
+            return -1
 
     def select_id(self, data, select):
         '''backupUrl,backup_url,baseUrl,base_url'''
-        return [i['baseUrl'] for i in data if str(i['id']).strip() == select]
+        return [i['baseUrl'] for i in data if str(i['id']).strip() == str(select)]
 
     def Clear_down(self):
         os.remove('.\\DownLoad\\' + self.video_title + '.mp4')
@@ -99,3 +104,14 @@ class DownLoad(object):
             self.download(self.audio_url, '.mp3')
             self.download(self.video_url, '.mp4')
             self.merge_video_and_audio()
+
+    def run_view(self,sel,select):
+        if sel == '1':
+            self.download(self.audio_url,'.mp3',0)
+        elif sel == '2':
+            self.download(self.video_url,'.mp4',select)
+        elif sel == '3':
+            self.download(self.audio_url, '.mp3',0)
+            self.download(self.video_url, '.mp4',select)
+            self.merge_video_and_audio()
+

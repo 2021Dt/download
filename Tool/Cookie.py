@@ -49,7 +49,7 @@ def user_show(filename='bilibili.txt',expiration_days=10):
     cookie = input('请输入您的 Cookie：').strip()
     while True:
         while True:
-            if len(cookie) < 800:
+            if len(cookie) < 500:
                 print('非法cookie，请重新输入')
                 cookie = input('请输入您的 Cookie：\n').strip()
             else:break

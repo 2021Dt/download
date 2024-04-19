@@ -30,3 +30,6 @@ class DanMu(object):
 
 
 
+
+
+

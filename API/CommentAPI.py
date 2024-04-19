@@ -4,12 +4,15 @@ import re
 import execjs
 import urllib
 from urllib.parse import quote
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QProgressDialog
 from tqdm import tqdm
 from Tool.RequestUrl import RequestUrl
 
 
 class CommentAPI(object):
-    def __init__(self, url, cookie,number=10):
+    def __init__(self, url, cookie, number=10, parent=None):
         self.url = url
         self.origin = 'https://www.bilibili.com/'
         self.cookie = cookie
@@ -21,6 +24,8 @@ class CommentAPI(object):
             raise ValueError("未找到视频ID")
         self.oid = oid_match[0]
         self.current_dir = os.path.dirname(__file__)
+        self.progress_dialog = None
+        self.parent = parent
 
 
     def request(self, session_id):
@@ -83,8 +88,20 @@ class CommentAPI(object):
             session_id = response.json()['data']['cursor']['session_id']
             self.CommentAPI['data'].extend(self.api(content_list))
             next_api = [self.request(session_id) for _ in range(self.number)]
-            for i in tqdm(next_api):
-                self.CommentAPI['data'].extend(self.get_content(i))
+
+            # 创建进度条对话框
+            self.progress_dialog = QProgressDialog("Downloading Comments...", None, 0, self.number, self.parent)
+            self.progress_dialog.setWindowTitle("Comment Download Progress")
+            self.progress_dialog.setAutoClose(True)
+            self.progress_dialog.setWindowModality(Qt.WindowModal)
+            self.progress_dialog.show()
+
+            # 在循环中更新进度条的值
+            for i, next_url in enumerate(tqdm(next_api, desc="Downloading Comments")):
+                if self.progress_dialog.wasCanceled():
+                    break
+                self.CommentAPI['data'].extend(self.get_content(next_url))
+                self.progress_dialog.setValue(i + 1)
         except (KeyError, ValueError) as e:
             print(f"获取评论失败: {e}")
 
