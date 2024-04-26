@@ -2,9 +2,7 @@ import os
 import sys
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QIcon, QColor, QPainter, QLinearGradient, QFont
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QMessageBox, QLineEdit, \
-    QInputDialog, QDialog, QHBoxLayout, QCheckBox, QRadioButton
-
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QMessageBox, QLineEdit, QDialog, QHBoxLayout, QCheckBox, QRadioButton
 from API.CommentAPI import CommentAPI
 from Tool.Cookie import out_cookie, set_cookie
 from Tool.DowbLoad import DownLoad
@@ -197,13 +195,15 @@ class MainWidget(QWidget):
         self.setWindowTitle('欢迎回来')
 
     def weibo(self):
-        pass
+        self.hide()
+        url = self.label.text()
 
     def tieba(self):
-        pass
-
+        self.hide()
+        url = self.label.text()
     def weiborebang(self):
-        pass
+        self.hide()
+        url = self.label.text()
 
 
 class BillBillWidget(QWidget):
@@ -523,10 +523,3 @@ def run():
     agreement_widget.show()
     sys.exit(app.exec())
 
-
-# if __name__ == '__main__':
-#     # run()
-#     app = QApplication(sys.argv)
-#     a = BillBillWidget(1, 1)
-#     a.show()
-#     app.exec()

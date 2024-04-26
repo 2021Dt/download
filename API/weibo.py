@@ -51,7 +51,6 @@ class Weibo(object):
 
     def clear_info(self, info: dict):
         """从页面数据清洗提取"""
-
         data = []
         for i in info['data']:
             user = {
@@ -69,7 +68,6 @@ class Weibo(object):
 
     def getBuildComments(self,page=''):
         """构建json文件"""
-
         data = self.get_info(page)
         threads = []
 
@@ -141,3 +139,9 @@ class Weibo(object):
         with open(f'.\\Comment\\WeiBoComment_{data["mid"]}.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
         print(f'为 {data["nick_name"]} 生成了评论区文件(◍˃̶ᗜ˂̶◍)✩')
+
+    def run(self,page):
+        '''榜单'''
+        self.write_to_file(self.getBuildComments(page))
+
+
